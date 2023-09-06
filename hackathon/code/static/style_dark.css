@@ -77,7 +77,8 @@ body {
   border: 1px solid var(--border-color);
   border-radius: 5px;
   padding: 5px;
-  color: var(--button-color)
+  color: var(--button-color);
+  background-color: var(--secondary-color);
 }
 
 .button {
