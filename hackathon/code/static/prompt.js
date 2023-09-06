@@ -2,6 +2,7 @@ const promptForm = document.getElementById("prompt-form");
 const submitButton = document.getElementById("submit-button");
 const questionButton = document.getElementById("question-button");
 const messagesContainer = document.getElementById("messages-container");
+const fileButton = document.getElementById("file-button");
 
 const appendHumanMessage = (message) => {
   const humanMessageElement = document.createElement("div");
@@ -65,9 +66,16 @@ const handleQuestionClick = async (event) => {
 
     questionButton.dataset.question = question;
     questionButton.classList.add("hidden");
-    submitButton.innerHTML = "Répondre à la question";
+    submitButton.innerHTML = "Rï¿½pondre ï¿½ la question";
     return question;
   });
 };
 
+
+const handleFileClick = async (event) => {
+    const response = await fetch("/upload", {
+      method: "POST", 
+    });
+
 questionButton.addEventListener("click", handleQuestionClick);
+fileButton.addEventListener("click", handleFileClick)
