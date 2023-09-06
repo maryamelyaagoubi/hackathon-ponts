@@ -6,12 +6,10 @@
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='style.css') }}"
-      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" id="theme-style">
     />
   </head>
 
   <body>
-    <button id="dark-mode-toggle">Toggle Dark Mode</button>
     <main class="main-container">
       <header class="header">
         <h1 class="header-title">Mon A.I.de mémoire</h1>
@@ -43,19 +41,7 @@
       </form>
 
       <script src="{{ url_for('static', filename='prompt.js') }}"></script>
-          <script>
-        const darkModeToggle = document.getElementById('dark-mode-toggle');
-        const themeStyleLink = document.getElementById('theme-style');
-        
-        darkModeToggle.addEventListener('click', () => {
-            if (themeStyleLink.href.endsWith('light.css')) {
-                themeStyleLink.href = "{{ url_for('static', filename='dark.css') }}";
-            } else {
-                themeStyleLink.href = "{{ url_for('static', filename='light.css') }}";
-            }
-        });
-    </script>
     </main>
-    
   </body>
 </html>
+ 
