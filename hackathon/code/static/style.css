@@ -1,10 +1,10 @@
 :root {
-  --body-background-color: #f5f6f8;
-  --main-background-color: #ffffff;
-  --main-color: #2a303b;
+  --body-background-color: #293e69;
+  --main-background-color: #000000;
+  --main-color: #bed1f5;
   --max-body-width: 700px;
-  --border-color: #cccccc;
-  --secondary-color: #fff6d3;
+  --border-color: #ec78cf;
+  --secondary-color: #208a63;
   --loader-bullet-size: 6px;
 }
 
