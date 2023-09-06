@@ -100,9 +100,12 @@ def gpt3_completion(question, prompt_eng):
 def ask_question_to_pdf(question):
     return gpt3_completion(question, document)
 
+def ask_question_to_user_u(doc):
+    return gpt3_completion("Poses moi une question à propos du texte que j'ai fourni", doc)
 
 def ask_question_to_user():
-    return ask_question_to_pdf("Poses moi une question à propos du texte que j'ai fourni")
+    return ask_question_to_user_u(document)
+
 
 def evaluate_answer(question, user_answer):
         reply= openai.ChatCompletion.create(
