@@ -101,7 +101,7 @@ def read_file(filename):
     return document
 
 
-chunks = split_text(document)
+# chunks = split_text(document)
 text = "La terre s'est aplatie à cause des ours"
 
 
@@ -129,10 +129,14 @@ def ask_question_to_user_u(doc):
 
 
 def ask_question_to_user_u(doc):
-    return gpt3_completion("Poses moi une question à propos du texte que j'ai fourni", doc)
+    return gpt3_completion(
+        "Poses moi une question à propos du texte que j'ai fourni", doc
+    )
+
 
 def ask_question_to_user():
     return ask_question_to_user_u(document)
+
 
 def evaluate_answer(question, user_answer):
     reply = openai.ChatCompletion.create(
