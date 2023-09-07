@@ -3,7 +3,7 @@ from utils.src.ask_question_to_pdf import ask_question_to_pdf
 from utils.src.ask_question_to_pdf import ask_question_to_user
 from utils.src.ask_question_to_pdf import ask_question_to_user_u
 from utils.src.ask_question_to_pdf import evaluate_answer
-from utils.src.ask_question_to_pdf import read_pdf
+from utils.src.ask_question_to_pdf import read_file
 import os
 from werkzeug.utils import secure_filename
 
@@ -40,7 +40,7 @@ def upload_file():
             os.path.dirname(__file__), secure_filename(file_u.filename)
         )
         file_u.save(file_path)
-        question = ask_question_to_user_u(read_pdf(file_path))
+        question = ask_question_to_user_u(read_file(file_path))
         return {"answer": question}
 
     except Exception as e:
@@ -54,15 +54,6 @@ def upload_file():
 @app.route("/question", methods=["GET"])
 def question():
     question = ask_question_to_user()
-    return {"answer": question}
-
-
-@app.route("/question", methods=["POST"])
-def question_u():
-    if not uploaded_file_path:
-        return "Aucun fichier n'a été téléchargé."
-
-    question = ask_question_to_user_u(read_pdf(file_u))
     return {"answer": question}
 
 
