@@ -4,18 +4,10 @@
 <head>
   <title>Mon A.I.de mémoire</title>
 
-  <!-- Link to the light mode css file -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='style_light.css') }}" id="theme-style-light" />
-
-  <!-- Link to the dark mode css file -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='style_dark.css') }}" id="theme-style-dark" />
-
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 
 <body>
-
-  <!-- Button for the dark mode -->
-  <button type="button" class="button" id="dark-maud-toggle">Toggle Maud</button>
   <main class="main-container">
     <header class="header">
       <h1 class="header-title">Mon A.I.de mémoire</h1>
@@ -40,26 +32,11 @@
       </button>
     </form>
 
-    <script src="{{ url_for('static', filename='prompt.js') }}"></script>
-    <script>
-      const darkModeToggle = document.getElementById('dark-maud-toggle');
-      const themeStyleLight = document.getElementById('theme-style-light');
-      const themeStyleDark = document.getElementById('theme-style-dark');
 
-      darkModeToggle.addEventListener('click', () => {
-        if (themeStyleLight.disabled) {
-          themeStyleLight.disabled = false;
-          themeStyleDark.disabled = true;
-        } else {
-          themeStyleLight.disabled = true;
-          themeStyleDark.disabled = false;
-        }
-      });
-    </script>
 
     <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
       <div>
-        <input id="file-u" type="file" name="file_u" accept=".pdf, .txt" />
+        <input id="file-u" type="file" name="file_u" accept=".pdf, .doc .txt" />
       </div>
       <div>
         <input id="file-button" type="submit" value="Envoyer" />
@@ -69,6 +46,7 @@
 
   </main>
 
+  <script src="{{ url_for('static', filename='prompt.js') }}"></script>
 </body>
 
 </html>
