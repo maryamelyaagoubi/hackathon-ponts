@@ -27,6 +27,8 @@ def answer():
 
 @app.route("/upload", methods=["POST"])
 def upload_file():
+    global uploaded_file_content  # Stockage du document
+
     if "file_u" not in request.files:
         return "Aucun fichier n'a été téléchargé."
 
@@ -40,8 +42,11 @@ def upload_file():
             os.path.dirname(__file__), secure_filename(file_u.filename)
         )
         file_u.save(file_path)
-        question = ask_question_to_user_u(read_file(file_path))
-        return {"answer": question}
+        uploaded_file_content = read_file(file_path)
+
+        # question = ask_question_to_user_u(read_file(file_path))
+        # return {"answer": question}
+        return {"answer": "Le fichier a bien été téléchargé !"}
 
     except Exception as e:
         return (
@@ -53,7 +58,10 @@ def upload_file():
 
 @app.route("/question", methods=["GET"])
 def question():
-    question = ask_question_to_user()
+    if uploaded_file_content is not None:
+        question = ask_question_to_user_u(uploaded_file_content)
+    else:
+        question = ask_question_to_user()
     return {"answer": question}
 
 
