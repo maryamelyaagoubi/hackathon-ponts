@@ -38,6 +38,15 @@ def read_pdf(filename):
     return context
 
 
+def read_txt(filename):
+    context = ""
+    # Open the text file
+    with open(filename, "r", encoding="utf-8") as txt_file:
+        # Get the text from the text file
+        context = txt_file.read()
+    return context
+
+
 def split_text(text, chunk_size=5000):
     """
     Splits the given text into chunks of approximately the specified chunk size.
@@ -79,21 +88,30 @@ def split_text(text, chunk_size=5000):
 
 
 filename = os.path.join(os.path.dirname(__file__), "filename.pdf")
-document = read_pdf(filename)
+
+# Get the file extension
+file_extension = os.path.splitext(filename)[-1].lower()
+
+if file_extension == ".pdf":
+    document = read_pdf(filename)
+elif file_extension == ".txt":
+    document = read_txt(filename)
+
+
 chunks = split_text(document)
-text= "La terre s'est applatie à cause des ours"
+text = "La terre s'est aplatie à cause des ours"
 
 
 def gpt3_completion(question, prompt_eng):
-    reponse= openai.ChatCompletion.create(
-          model="gpt-3.5-turbo",
-          messages=[
-          {"role": "system", "content": "You are a helpful assistant."},
-          {"role": "user", "content": question},
-          {"role": "assistant", "content": prompt_eng}
-          ]   
+    reponse = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": question},
+            {"role": "assistant", "content": prompt_eng},
+        ],
     )
-    answer= reponse['choices'][0]['message']['content']
+    answer = reponse["choices"][0]["message"]["content"]
     return answer
 
 
@@ -102,17 +120,22 @@ def ask_question_to_pdf(question):
 
 
 def ask_question_to_user():
-    return ask_question_to_pdf("Poses moi une question à propos du texte que j'ai fourni")
+    return ask_question_to_pdf(
+        "Poses moi une question à propos du texte que j'ai fourni"
+    )
+
 
 def evaluate_answer(question, user_answer):
-        reply= openai.ChatCompletion.create(
-          model="gpt-3.5-turbo",
-          messages=[
-          {"role": "system", "content": "You are a helpful assistant."},
-          {"role": "user", "content": question},
-          {"role": "assistant", "content": user_answer},
-          {"role": "user", "content": "Si ma réponse est correcte, félicites moi; sinon dis que c'est faux et donnes moi la bonne réponse"},
-          ]   
-        )
-        return reply['choices'][0]['message']['content']
- 
+    reply = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": question},
+            {"role": "assistant", "content": user_answer},
+            {
+                "role": "user",
+                "content": "Si ma réponse est correcte, félicites moi; sinon dis que c'est faux et donnes moi la bonne réponse",
+            },
+        ],
+    )
+    return reply["choices"][0]["message"]["content"]
