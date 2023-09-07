@@ -1,74 +1,60 @@
 <!DOCTYPE html>
 <html lang="fr">
+  <head>
+    <title>Mon A.I.de mémoire</title>
 
-<head>
-  <title>Mon A.I.de mémoire</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
 
-  <!-- Link to the light mode css file -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='style_light.css') }}" id="theme-style-light" />
+  <body>
+    <main class="main-container">
+      <header class="header">
+        <h1 class="header-title">Mon A.I.de mémoire</h1>
+      </header>
 
-  <!-- Link to the dark mode css file -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='style_dark.css') }}" id="theme-style-dark" />
+      <section id="messages-container" class="messages-container">
+        <div class="message message-ai">
+          Je suis ton AIssistant de cours personnel ! Pose-moi une question sur
+          le cours et je te répondrai.
+        </div>
+      </section>
 
-</head>
+      <form id="prompt-form" class="prompt-container">
+        <label for="prompt" class="prompt-label">Message</label>
 
-<body>
+        <input
+          type="text"
+          id="prompt"
+          name="prompt"
+          class="prompt-input"
+          autocomplete="off"
+        />
 
-  <!-- Button for the dark mode -->
-  <button type="button" class="button" id="dark-maud-toggle">Toggle Maud</button>
-  <main class="main-container">
-    <header class="header">
-      <h1 class="header-title">Mon A.I.de mémoire</h1>
-    </header>
+        <button type="submit" class="button" id="submit-button">Envoyer</button>
 
-    <section id="messages-container" class="messages-container">
-      <div class="message message-ai">
-        Je suis ton AIssistant de cours personnel ! Pose-moi une question sur
-        le cours et je te répondrai.
-      </div>
-    </section>
+        <button type="button" class="button" id="question-button">
+          Pose-moi une question !
+        </button>
+      </form>
 
-    <form id="prompt-form" class="prompt-container">
-      <label for="prompt" class="prompt-label">Message</label>
-
-      <input type="text" id="prompt" name="prompt" class="prompt-input" autocomplete="off" />
-
-      <button type="submit" class="button" id="submit-button">Envoyer</button>
-
-      <button type="button" class="button" id="question-button">
-        Pose-moi une question !
-      </button>
-    </form>
-
-    <script src="{{ url_for('static', filename='prompt.js') }}"></script>
-    <script>
-      const darkModeToggle = document.getElementById('dark-maud-toggle');
-      const themeStyleLight = document.getElementById('theme-style-light');
-      const themeStyleDark = document.getElementById('theme-style-dark');
-
-      darkModeToggle.addEventListener('click', () => {
-        if (themeStyleLight.disabled) {
-          themeStyleLight.disabled = false;
-          themeStyleDark.disabled = true;
-        } else {
-          themeStyleLight.disabled = true;
-          themeStyleDark.disabled = false;
-        }
-      });
-    </script>
+      
 
       <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
         <div>
-          <input id="file-u" type="file" name="file_u" accept=".pdf, .doc" />
+          <input id="file-u" type="file" name="file_u" accept=".pdf, .doc .txt" />
         </div>
         <div>
           <input id="file-button" type="submit" value="Envoyer" />
         </div>
       </form>
       
-
-  </main>
-
-</body>
-
-</html>
+      
+    </main>
+    
+    <script src="{{ url_for('static', filename='prompt.js') }}"></script>
+  </body>
+  </html>
+ 
