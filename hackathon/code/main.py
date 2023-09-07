@@ -3,6 +3,8 @@ from utils.src.ask_question_to_pdf import ask_question_to_pdf
 from utils.src.ask_question_to_pdf import ask_question_to_user
 from utils.src.ask_question_to_pdf import ask_question_to_user_u
 from utils.src.ask_question_to_pdf import evaluate_answer
+from utils.src.ask_question_to_pdf import read_pdf
+
 
 app = Flask(__name__)
 
@@ -20,34 +22,42 @@ def answer():
 	answer = ask_question_to_pdf(request.form['prompt'])
 	return {"answer":answer}
 
-document_u = None
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    global document_u  # Access the global variable
-    if 'file' not in request.files:
+    global uploaded_file_path  # Access the global variable
+    if 'file_u' not in request.files:
         return "Aucun fichier n'a été téléchargé."
-    
-    file = request.files['file']
-    
-    if file.filename == '':
+
+    file_u = request.files['file_u']
+
+    if file_u.filename == '':
         return "Aucun fichier sélectionné."
 
-    file_u = os.path.join(os.path.dirname(__file__), "file_u.pdf")
-    document_u = read_pdf(file_u)
-    session['document_u'] = document_u
+    # Save the uploaded file to a specific directory
+    upload_folder = os.path.join(os.path.dirname(__file__), "uploads")
+    os.makedirs(upload_folder, exist_ok=True)
+    file_u.save("file_path")
 
-    
-    return "Le fichier {} a été téléchargé avec succès.".format(file.file_u)
+    # Store the file path in the global variable
+    #uploaded_file_path = file_path
 
+    return "Le fichier {} a été téléchargé avec succès.".format(file_u.filename)
 
-@app.route('/question',methods=["GET"])
+@app.route('/question', methods=["GET"])
 def question():
-  if not document_u:
-        question = ask_question_to_user()
-        return {"answer":question}
-  question = ask_question_to_user_u(document_u)
-  return {"answer":question}
+    question = ask_question_to_user()
+    return {"answer": question}
+
+@app.route('/question', methods=["POST"])
+def question_u():
+    global uploaded_file_path  # Access the global variable
+    if not uploaded_file_path:
+        return "Aucun fichier n'a été téléchargé."
+
+    document_u = read_pdf(uploaded_file_path)  # Use the file path stored in the global variable
+    question = ask_question_to_user_u(document_u)
+    return {"answer": question}
 
 @app.route('/answer', methods=["POST"])
 def reply():
