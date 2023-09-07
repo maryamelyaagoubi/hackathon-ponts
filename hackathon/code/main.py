@@ -38,23 +38,14 @@ def upload_file():
     if file_u.filename == "":
         return "Aucun fichier sélectionné."
     try:
-        file_u.save(os.path.join(os.path.dirname(__file__), secure_filename(file_u.filename)))
-        question = ask_question_to_user_u(read_pdf(request.files['file_u']))
+        file_u.save(
+            os.path.join(os.path.dirname(__file__), secure_filename(file_u.filename))
+        )
+        question = ask_question_to_user_u(read_pdf(request.files["file_u"]))
         return {"answer": question}
-        #return "Le fichier {} a été téléchargé avec succès.".format(file_u.filename)
+        # return "Le fichier {} a été téléchargé avec succès.".format(file_u.filename)
     except Exception as e:
         return "Erreur lors de l'enregistrement du fichier : {}".format(str(e))
-
-<<<<<<< HEAD
-    # file_u.save(os.path.join(os.path.dirname(__file__), "file_u.pdf"))
-    file_path = os.path.join(
-        os.path.dirname(__file__), secure_filename(file_u.filename)
-    )
-    file_u.save(file_path)
-
-    return "Le fichier {} a été téléchargé avec succès.".format(file_u.file_u)
-=======
->>>>>>> fe7bcc5ea5a88049d012492e3abd4c310990082d
 
 
 @app.route("/question", methods=["GET"])
