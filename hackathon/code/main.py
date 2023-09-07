@@ -1,11 +1,9 @@
 from flask import Flask, render_template, request
-from werkzeug.utils import secure_filename
 from utils.src.ask_question_to_pdf import ask_question_to_pdf
 from utils.src.ask_question_to_pdf import ask_question_to_user
 from utils.src.ask_question_to_pdf import ask_question_to_user_u
 from utils.src.ask_question_to_pdf import evaluate_answer
 from utils.src.ask_question_to_pdf import read_pdf
-
 import os
 from werkzeug.utils import secure_filename
 
@@ -29,7 +27,6 @@ def answer():
 
 @app.route("/upload", methods=["POST"])
 def upload_file():
-    global uploaded_file_path  # Access the global variable
     if "file_u" not in request.files:
         return "Aucun fichier n'a été téléchargé."
 
@@ -37,15 +34,21 @@ def upload_file():
 
     if file_u.filename == "":
         return "Aucun fichier sélectionné."
+
     try:
-        file_u.save(
-            os.path.join(os.path.dirname(__file__), secure_filename(file_u.filename))
+        file_path = os.path.join(
+            os.path.dirname(__file__), secure_filename(file_u.filename)
         )
-        question = ask_question_to_user_u(read_pdf(request.files["file_u"]))
+        file_u.save(file_path)
+        question = ask_question_to_user_u(read_pdf(file_path))
         return {"answer": question}
-        # return "Le fichier {} a été téléchargé avec succès.".format(file_u.filename)
+
     except Exception as e:
-        return "Erreur lors de l'enregistrement du fichier : {}".format(str(e))
+        return (
+            "Erreur lors de l'enregistrement ou du traitement du fichier : {}".format(
+                str(e)
+            )
+        )
 
 
 @app.route("/question", methods=["GET"])
@@ -59,7 +62,7 @@ def question_u():
     if not uploaded_file_path:
         return "Aucun fichier n'a été téléchargé."
 
-    question = ask_question_to_user_u(read_pdf(request.files["file_u"]))
+    question = ask_question_to_user_u(read_pdf(file_u))
     return {"answer": question}
 
 
