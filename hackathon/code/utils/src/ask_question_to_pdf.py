@@ -101,6 +101,7 @@ def read_file(filename):
     return document
 
 
+document = read_file(filename)
 # chunks = split_text(document)
 text = "La terre s'est aplatie à cause des ours"
 
