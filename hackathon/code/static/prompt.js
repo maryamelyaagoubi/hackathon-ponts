@@ -2,6 +2,8 @@ const promptForm = document.getElementById("prompt-form");
 const submitButton = document.getElementById("submit-button");
 const questionButton = document.getElementById("question-button");
 const messagesContainer = document.getElementById("messages-container");
+const fileButton = document.getElementById("file-button");
+const formButton = document.getElementById("uploadForm");
 
 const appendHumanMessage = (message) => {
   const humanMessageElement = document.createElement("div");
@@ -35,6 +37,7 @@ const handlePrompt = async (event) => {
   let url = "/prompt";
   if (questionButton.dataset.question !== undefined) {
     url = "/answer";
+    // add question to form data
     data.append("question", questionButton.dataset.question);
     delete questionButton.dataset.question;
     questionButton.classList.remove("hidden");
@@ -62,12 +65,32 @@ const handleQuestionClick = async (event) => {
     });
     const result = await response.json();
     const question = result.answer;
-
     questionButton.dataset.question = question;
     questionButton.classList.add("hidden");
-    submitButton.innerHTML = "Répondre à la question";
+    submitButton.innerHTML = "R�pondre � la question";
     return question;
   });
-};
+}
+
 
 questionButton.addEventListener("click", handleQuestionClick);
+
+// Handle file form submission
+const handleFileSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    appendAIMessage(async () => {
+    const response = await fetch("/upload", {
+      method: "POST",
+      body: formData,
+    });
+    const result = await response.json();
+    const question = result.answer;
+    formButton.dataset.question = question;
+    formButton.classList.add("hidden");
+    return question;
+  })
+}
+
+
+formButton.addEventListener("submit", handleFileSubmit);
