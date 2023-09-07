@@ -89,13 +89,16 @@ def split_text(text, chunk_size=5000):
 
 filename = os.path.join(os.path.dirname(__file__), "filename.pdf")
 
-# Get the file extension
-file_extension = os.path.splitext(filename)[-1].lower()
 
-if file_extension == ".pdf":
-    document = read_pdf(filename)
-elif file_extension == ".txt":
-    document = read_txt(filename)
+def read_file(filename):
+    # Get the file extension
+    file_extension = os.path.splitext(filename)[-1].lower()
+
+    if file_extension == ".pdf":
+        document = read_pdf(filename)
+    elif file_extension == ".txt":
+        document = read_txt(filename)
+    return document
 
 
 chunks = split_text(document)
