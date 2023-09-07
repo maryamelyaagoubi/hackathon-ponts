@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from utils.src.ask_question_to_pdf import ask_question_to_pdf
+from utils.src.ask_question_to_pdf import ask_question_to_pdf_u
 from utils.src.ask_question_to_pdf import ask_question_to_user
 from utils.src.ask_question_to_pdf import ask_question_to_user_u
 from utils.src.ask_question_to_pdf import evaluate_answer
@@ -17,12 +18,6 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     return render_template("index.html")
-
-
-@app.route("/prompt", methods=["POST"])
-def answer():
-    answer = ask_question_to_pdf(request.form["prompt"])
-    return {"answer": answer}
 
 
 @app.route("/upload", methods=["POST"])
@@ -54,6 +49,15 @@ def upload_file():
                 str(e)
             )
         )
+
+
+@app.route("/prompt", methods=["POST"])
+def answer():
+    if uploaded_file_content is not None:
+        answer = ask_question_to_pdf_u(request.form["prompt"], uploaded_file_content)
+    else:
+        answer = ask_question_to_pdf(request.form["prompt"])
+    return {"answer": answer}
 
 
 @app.route("/question", methods=["GET"])

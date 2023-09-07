@@ -119,8 +119,12 @@ def gpt3_completion(question, prompt_eng):
     return answer
 
 
+def ask_question_to_pdf_u(question, doc):
+    return gpt3_completion(question, doc)
+
+
 def ask_question_to_pdf(question):
-    return gpt3_completion(question, document)
+    return ask_question_to_pdf_u(question, document)
 
 
 def ask_question_to_user_u(doc):
