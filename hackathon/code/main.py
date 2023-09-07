@@ -5,6 +5,8 @@ from utils.src.ask_question_to_pdf import ask_question_to_user_u
 from utils.src.ask_question_to_pdf import evaluate_answer
 from utils.src.ask_question_to_pdf import read_pdf
 import os
+from werkzeug.utils import secure_filename
+
 
 app = Flask(__name__)
 
@@ -33,10 +35,14 @@ def upload_file():
 
     if file_u.filename == '':
         return "Aucun fichier sélectionné."
+    try:
+        file_u.save(os.path.join(os.path.dirname(__file__), secure_filename(file_u.filename)))
+        question = ask_question_to_user_u(read_pdf(request.files['file_u']))
+        return {"answer": question}
+        #return "Le fichier {} a été téléchargé avec succès.".format(file_u.filename)
+    except Exception as e:
+        return "Erreur lors de l'enregistrement du fichier : {}".format(str(e))
 
-    file_u.save(os.path.join(os.path.dirname(__file__), "file_u.pdf"))
-
-    return "Le fichier {} a été téléchargé avec succès.".format(file_u.file_u)
 
 @app.route('/question', methods=["GET"])
 def question():
