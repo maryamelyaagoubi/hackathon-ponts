@@ -39,14 +39,14 @@
       </button>
     </form>
 
-
-
     <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
       <div>
-        <input id="file-u" type="file" name="file_u" accept=".pdf, .txt" />
+        <input id="file-u" type="file" name="file_u" accept=".pdf, .doc" style="display: none;" />
+        <label for="file-u" id="file-button" class="button">Choisir un fichier</label>
+        <span id="file-name"></span> <!-- Affichage du nom du fichier -->
       </div>
       <div>
-        <input id="file-button" type="submit" value="Envoyer" />
+        <input id="file-button" type="submit" class="button" value="Envoyer" />
       </div>
     </form>
 

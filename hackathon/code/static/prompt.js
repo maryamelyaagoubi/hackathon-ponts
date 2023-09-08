@@ -5,6 +5,21 @@ const messagesContainer = document.getElementById("messages-container");
 const fileButton = document.getElementById("file-button");
 const formButton = document.getElementById("uploadForm");
 
+// Réglages du bouton upload
+const fileInput = document.getElementById('file-u');
+const fileNameElement = document.getElementById('file-name');
+
+fileNameElement.textContent = 'Aucun fichier sélectionné'
+
+fileInput.addEventListener('change', (event) => {
+  if (event.target.files.length > 0) {
+    fileNameElement.textContent = `Fichier sélectionné : ${fileInput.files[0].name}`;
+  } else {
+    fileNameElement.textContent = 'Aucun fichier sélectionné';
+  }
+});
+//
+
 const appendHumanMessage = (message) => {
   const humanMessageElement = document.createElement("div");
   humanMessageElement.classList.add("message", "message-human");
@@ -77,9 +92,9 @@ questionButton.addEventListener("click", handleQuestionClick);
 
 // Handle file form submission
 const handleFileSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    appendAIMessage(async () => {
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  appendAIMessage(async () => {
     const response = await fetch("/upload", {
       method: "POST",
       body: formData,
